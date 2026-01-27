@@ -4,3 +4,4 @@ k3s_version: v1.28.5+k3s1
 k3s_token: "97A6ABCFF7506835173C0D7422FBB27230E96644CA9A1A740FD9C4F9EC1CEB76"
 ansible_user: chipfox
 # systemd_dir: /etc/systemd/system
+k3s_use_external_database: false

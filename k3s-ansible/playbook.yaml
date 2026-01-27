@@ -1,0 +1,14 @@
+- name: Ensure k3s-ansible collection is installed
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Install required Ansible collections
+      ansible.builtin.command:
+        cmd: ansible-galaxy collection install -r requirement.yaml
+      args:
+        chdir: "{{ playbook_dir }}"
+      changed_when: false
+
+- name: Import kube cluster playbook
+  ansible.builtin.import_playbook: k3s-ansible/playbooks/site.yml

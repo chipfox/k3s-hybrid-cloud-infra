@@ -130,3 +130,33 @@ variable "k3s_agent_memory_mb" {
   type        = number
   default     = 4096
 }
+
+variable "vm_network_gateway" {
+  description = "Network gateway for static IP configuration"
+  type        = string
+  default     = "10.0.0.1"
+}
+
+variable "vm_network_netmask" {
+  description = "Network netmask for static IP configuration"
+  type        = number
+  default     = 24
+}
+
+variable "vm_network_dns" {
+  description = "DNS servers for static IP configuration"
+  type        = list(string)
+  default     = ["10.0.0.1", "1.1.1.1"]
+}
+
+variable "k3s_server_ip_base" {
+  description = "Starting IP address for k3s server nodes (e.g., 10.0.0.230)"
+  type        = string
+  default     = "10.0.0.230"
+}
+
+variable "k3s_agent_ip_base" {
+  description = "Starting IP address for k3s agent nodes (e.g., 10.0.0.240)"
+  type        = string
+  default     = "10.0.0.240"
+}

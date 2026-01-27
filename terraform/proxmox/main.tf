@@ -58,8 +58,13 @@ resource "proxmox_virtual_environment_vm" "k3s_server" {
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = "${local.server_ips[each.key]}/${var.vm_network_netmask}"
+        gateway = var.vm_network_gateway
       }
+    }
+
+    dns {
+      servers = var.vm_network_dns
     }
   }
 
@@ -114,8 +119,13 @@ resource "proxmox_virtual_environment_vm" "k3s_agent" {
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = "${local.agent_ips[each.key]}/${var.vm_network_netmask}"
+        gateway = var.vm_network_gateway
       }
+    }
+
+    dns {
+      servers = var.vm_network_dns
     }
   }
 

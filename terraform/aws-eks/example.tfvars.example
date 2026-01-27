@@ -1,0 +1,16 @@
+# Copy to a local file like: aws.auto.tfvars (not committed)
+
+aws_region         = "us-west-2"
+project_name       = "k3s-hybrid"
+cluster_name       = "hybrid-eks"
+kubernetes_version = "1.30"
+
+vpc_cidr = "10.42.0.0/16"
+
+node_instance_types = ["t3.large"]
+node_min_size       = 1
+node_desired_size   = 3
+node_max_size       = 4
+
+bootstrap_secret_name = "k3s-hybrid/bootstrap"
+# DO NOT COMMIT: set TF_VAR_bootstrap_secret_value instead of writing it here

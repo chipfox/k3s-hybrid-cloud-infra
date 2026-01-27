@@ -1,0 +1,35 @@
+# Copy to a local file like: proxmox.auto.tfvars (not committed)
+
+proxmox_endpoint     = "https://pve1:8006"
+proxmox_api_token    = "root@pam!terraform=REDACTED"
+proxmox_insecure     = true
+proxmox_ssh_username = "root"
+proxmox_ssh_password = "REDACTED"  # or set TF_VAR_proxmox_ssh_password
+
+# Proxmox node names (cluster members)
+proxmox_nodes        = ["pve1", "pve2", "pve3"]
+
+# Where to upload cloud-init snippet files (any node works with shared storage)
+# NOTE: these are Proxmox *storage IDs*, not filesystem paths.
+snippets_node_name    = "pve1"
+snippets_datastore_id = "local"
+
+# Template VMID for your Ubuntu 25.10 cloud-init template
+template_vm_id       = 9000
+# template_node_name = "pve1"
+
+vm_datastore_id      = "local-lvm"
+vm_bridge            = "vmbr0"
+
+# Cloud-init user config
+vm_user              = "ubuntu"
+vm_ssh_public_key    = "keys/id_ed25519.pub"  # Path to SSH public key file
+
+k3s_server_count     = 3
+k3s_agent_count      = 5
+
+k3s_server_cpu_cores = 2
+k3s_server_memory_mb = 4096
+
+k3s_agent_cpu_cores  = 2
+k3s_agent_memory_mb  = 4096

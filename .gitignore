@@ -40,7 +40,6 @@ deployment-summary.txt
 
 # IDE and environment files
 .envrc
-.env
 .vscode/
 .idea/
 

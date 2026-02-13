@@ -11,4 +11,4 @@
       changed_when: false
 
 - name: Import kube cluster playbook
-  ansible.builtin.import_playbook: k3s-ansible/playbooks/site.yml
+  ansible.builtin.import_playbook: k3s.orchestration.site

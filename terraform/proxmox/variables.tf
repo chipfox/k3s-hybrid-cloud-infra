@@ -32,10 +32,6 @@ variable "proxmox_nodes" {
   type        = list(string)
 }
 
-variable "snippets_node_name" {
-  description = "Node name to upload cloud-init snippet files to (since you're using shared storage, any node works)"
-  type        = string
-}
 
 variable "snippets_datastore_id" {
   description = "Datastore ID with 'Snippets' content type enabled"

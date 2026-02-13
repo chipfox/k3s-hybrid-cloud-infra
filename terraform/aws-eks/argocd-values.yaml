@@ -1,0 +1,73 @@
+configs:
+  secret:
+    argocdServerAdminPassword: ${argocd_admin_password_bcrypt}
+    argocdServerAdminPasswordMtime: ${argocd_admin_password_mtime}
+
+global:
+  image:
+    tag: ${argocd_image_tag}
+
+controller:
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: ${argocd_controller_role_arn}
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+
+server:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/backend-protocol: HTTPS
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+      alb.ingress.kubernetes.io/inbound-cidrs: "${argocd_ingress_cidrs}"
+      alb.ingress.kubernetes.io/certificate-arn: "${argocd_acm_certificate_arn}"
+      alb.ingress.kubernetes.io/subnets: "${argocd_ingress_subnets}"
+    hosts:
+      - ${argocd_hostname}
+
+repoServer:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+
+applicationSet:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+redis:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi

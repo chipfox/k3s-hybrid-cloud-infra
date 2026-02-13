@@ -49,3 +49,4 @@ node_modules/
 
 # Ansible artifacts
 k3s-ansible/kubeconfig*
+k3s-ansible/group_vars/all.yaml

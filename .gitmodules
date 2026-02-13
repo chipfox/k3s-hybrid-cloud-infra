@@ -1,0 +1,3 @@
+[submodule "argo-apps"]
+	path = argo-apps
+	url = https://github.com/chipfox/argo-apps.git

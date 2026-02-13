@@ -36,8 +36,8 @@ ssh-keygen -t ed25519 -f keys/id_ed25519 -N "" -C "k3s-proxmox"
 
 # 3. Deploy VMs
 terraform init
-export TF_CLI_ARGS_apply="-parallelism=1"
-export TF_CLI_ARGS_plan="-parallelism=1"
+# Load root .env (git-ignored) for TF_CLI_ARGS and other env vars
+set -a; source ../../.env; set +a
 terraform plan
 terraform apply -auto-approve
 
@@ -226,8 +226,8 @@ terraform init
 #### 2.2 Deploy VMs (with parallelism=1)
 
 ```bash
-export TF_CLI_ARGS_apply="-parallelism=1"
-export TF_CLI_ARGS_plan="-parallelism=1"
+# Load root .env (git-ignored) for TF_CLI_ARGS and other env vars
+set -a; source ../../.env; set +a
 terraform plan
 terraform apply -auto-approve
 ```

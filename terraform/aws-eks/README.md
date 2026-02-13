@@ -17,7 +17,15 @@ This Terraform root creates:
 
 This configuration intentionally does **not** hardcode any secrets.
 
-Set the secret at apply-time using an environment variable:
+Set the secret at apply-time using an environment variable.
+
+Recommended: load from the repo root `.env` (git-ignored):
+
+```bash
+set -a; source ../../.env; set +a
+```
+
+Or set it directly in the session:
 
 - PowerShell: `setx TF_VAR_bootstrap_secret_value "..."`
 - Or for the current session only: `$env:TF_VAR_bootstrap_secret_value = "..."`

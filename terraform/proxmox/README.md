@@ -57,6 +57,7 @@ Use Proxmox **storage IDs**, not filesystem paths:
 
 ```bash
 terraform init
+set -a; source ../../.env; set +a
 terraform plan
 terraform apply
 ```

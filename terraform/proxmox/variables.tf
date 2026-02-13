@@ -95,6 +95,13 @@ variable "vm_ssh_public_key" {
   type        = string
 }
 
+variable "vm_password" {
+  description = "Password for VM user (for console access). Leave empty for SSH-only access."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
 variable "k3s_server_count" {
   description = "How many k3s server (control-plane) VMs to create (k3s-1..k3s-N)"
   type        = number
@@ -140,13 +147,13 @@ variable "vm_network_gateway" {
 variable "vm_network_netmask" {
   description = "Network netmask for static IP configuration"
   type        = number
-  default     = 24
+  default     = 23
 }
 
 variable "vm_network_dns" {
   description = "DNS servers for static IP configuration"
   type        = list(string)
-  default     = ["10.0.0.1", "1.1.1.1"]
+  default     = ["10.0.0.1"]
 }
 
 variable "k3s_server_ip_base" {
@@ -159,4 +166,16 @@ variable "k3s_agent_ip_base" {
   description = "Starting IP address for k3s agent nodes (e.g., 10.0.0.240)"
   type        = string
   default     = "10.0.0.240"
+}
+
+variable "k3s_server_vm_id_base" {
+  description = "Base VM ID for k3s server VMs. VMs will be assigned sequential IDs starting from this value"
+  type        = number
+  default     = 200
+}
+
+variable "k3s_agent_vm_id_base" {
+  description = "Base VM ID for k3s agent VMs. VMs will be assigned sequential IDs starting from this value"
+  type        = number
+  default     = 300
 }

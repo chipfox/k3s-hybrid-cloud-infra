@@ -24,6 +24,15 @@ vm_bridge            = "vmbr0"
 # Cloud-init user config
 vm_user              = "ubuntu"
 vm_ssh_public_key    = "keys/id_ed25519.pub"  # Path to SSH public key file
+vm_password          = ""  # Optional: set a password for console access (leave empty for SSH-only)
+
+# Network settings
+vm_network_netmask   = 23
+vm_network_dns       = ["10.0.0.1"]
+
+# VM ID ranges (prevents collisions between servers and agents)
+k3s_server_vm_id_base = 200  # Servers get IDs 200, 201, 202...
+k3s_agent_vm_id_base  = 300  # Agents get IDs 300, 301, 302...
 
 k3s_server_count     = 3
 k3s_agent_count      = 5

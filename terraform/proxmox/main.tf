@@ -3,13 +3,19 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 
   content_type = "snippets"
   datastore_id = var.snippets_datastore_id
-  node_name    = var.snippets_node_name
+  # Upload snippet to the same node where the VM will run
+  node_name = local.vm_node[each.key]
 
   source_raw {
     data = templatefile("${path.module}/cloud-init.tpl.yaml", {
       hostname       = each.key
       username       = var.vm_user
       ssh_public_key = local.vm_ssh_public_key_content
+      password       = var.vm_password
+      ip_address     = local.vm_ips[each.key]
+      netmask        = var.vm_network_netmask
+      gateway        = var.vm_network_gateway
+      dns_servers    = var.vm_network_dns
     })
 
     file_name = "${each.key}.cloud-config.yaml"
@@ -19,6 +25,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 resource "proxmox_virtual_environment_vm" "k3s_server" {
   for_each = toset(local.server_names)
 
+  vm_id       = local.server_vm_ids[each.key]
   name        = each.key
   description = "k3s server (control-plane) - managed by Terraform"
   tags        = var.vm_tags
@@ -27,8 +34,8 @@ resource "proxmox_virtual_environment_vm" "k3s_server" {
   pool_id   = var.vm_pool_id
 
   agent {
-    # Cloud images typically need qemu-guest-agent installed/enabled first.
-    enabled = false
+    # Enable qemu-guest-agent to report IP addresses back to Proxmox
+    enabled = true
   }
 
   stop_on_destroy = true
@@ -66,11 +73,14 @@ resource "proxmox_virtual_environment_vm" "k3s_server" {
     dns {
       servers = var.vm_network_dns
     }
+
+    # User configuration handled by cloud-init user_data only
   }
 
   network_device {
     bridge = var.vm_bridge
     model  = "virtio"
+    mtu    = 1500
   }
 
   operating_system {
@@ -81,6 +91,7 @@ resource "proxmox_virtual_environment_vm" "k3s_server" {
 resource "proxmox_virtual_environment_vm" "k3s_agent" {
   for_each = toset(local.agent_names)
 
+  vm_id       = local.agent_vm_ids[each.key]
   name        = each.key
   description = "k3s agent (worker) - managed by Terraform"
   tags        = var.vm_tags
@@ -89,7 +100,8 @@ resource "proxmox_virtual_environment_vm" "k3s_agent" {
   pool_id   = var.vm_pool_id
 
   agent {
-    enabled = false
+    # Enable qemu-guest-agent to report IP addresses back to Proxmox
+    enabled = true
   }
 
   stop_on_destroy = true
@@ -127,11 +139,15 @@ resource "proxmox_virtual_environment_vm" "k3s_agent" {
     dns {
       servers = var.vm_network_dns
     }
+
+    # User configuration handled by cloud-init user_data only
+    # Do NOT add user_account block here - it conflicts with cloud-init
   }
 
   network_device {
     bridge = var.vm_bridge
     model  = "virtio"
+    mtu    = 1500
   }
 
   operating_system {

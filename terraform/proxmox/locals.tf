@@ -16,7 +16,7 @@ locals {
   vm_node = merge(local.server_node, local.agent_node)
 
   # Read SSH public key from file path
-  vm_ssh_public_key_content = file(var.vm_ssh_public_key)
+  vm_ssh_public_key_content = trimspace(file(var.vm_ssh_public_key))
 
   # Calculate static IPs for each VM
   # Parse base IPs and increment
@@ -47,4 +47,15 @@ locals {
 
   # Merge all IPs for easy lookup
   vm_ips = merge(local.server_ips, local.agent_ips)
+
+  # Assign unique VM IDs for servers and agents
+  server_vm_ids = {
+    for idx, name in local.server_names :
+    name => var.k3s_server_vm_id_base + idx
+  }
+
+  agent_vm_ids = {
+    for idx, name in local.agent_names :
+    name => var.k3s_agent_vm_id_base + idx
+  }
 }

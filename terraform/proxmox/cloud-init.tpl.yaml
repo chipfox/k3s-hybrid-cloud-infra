@@ -5,13 +5,28 @@ package_update: true
 package_upgrade: false
 packages:
   - qemu-guest-agent
+
+# User configuration
 users:
-  - default
   - name: ${username}
     groups: [sudo]
     shell: /bin/bash
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     ssh_authorized_keys:
       - ${ssh_public_key}
+%{ if password != "" ~}
+    lock_passwd: false
+%{ else ~}
+    lock_passwd: true
+%{ endif ~}
+
+%{ if password != "" ~}
+# Set password for console access
+chpasswd:
+  list: |
+    ${username}:${password}
+  expire: false
+%{ endif ~}
+
 runcmd:
   - [systemctl, enable, --now, qemu-guest-agent]

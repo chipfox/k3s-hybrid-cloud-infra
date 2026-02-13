@@ -53,7 +53,7 @@ k3s_masters
 k3s_agents
 
 [all:vars]
-ansible_user=chipfox
+ansible_user=${var.vm_user}
 ansible_ssh_private_key_file=../terraform/proxmox/keys/id_ed25519
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
   EOT

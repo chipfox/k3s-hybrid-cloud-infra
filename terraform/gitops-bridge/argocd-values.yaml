@@ -1,0 +1,83 @@
+global:
+  image:
+    tag: v2.13.2
+
+configs:
+  params:
+    server.insecure: "true"
+    # basehref and rootpath must be empty (not "/") when serving at root
+    # server.basehref: ""
+    # server.rootpath: ""
+    server.staticassets: ""  # Empty to use embedded UI assets
+  secret:
+    createSecret: true
+    argocdServerAdminPassword: ${ARGOCD_ADMIN_PASSWORD}
+    argocdServerAdminPasswordMtime: "2026-02-13T00:00:00Z"
+  rbac:
+    policy.default: role:admin
+  cm:
+    create: true
+    url: http://10.0.0.230:30080
+    application.instanceLabelKey: argocd.argoproj.io/instance
+    application.resourceTrackingMethod: annotation
+
+server:
+  service:
+    type: NodePort
+    nodePortHttp: ${ARGOCD_NODEPORT_HTTP}
+    nodePortHttps: ${ARGOCD_NODEPORT_HTTPS}
+  ingress:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+controller:
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+repoServer:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+applicationSet:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+dex:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 150m
+      memory: 128Mi
+
+redis:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+

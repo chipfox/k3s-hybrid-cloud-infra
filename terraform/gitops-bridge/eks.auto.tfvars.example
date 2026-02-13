@@ -1,0 +1,8 @@
+kubeconfig_path = "~/.kube/config"
+cluster_name    = "eks-main"
+environment     = "production"
+
+gitops_repo_url      = "https://github.com/chipfox/argo-apps.git"
+gitops_repo_revision = "HEAD"
+
+argocd_admin_password = "replace-me"

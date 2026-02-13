@@ -11,14 +11,5 @@ type: Opaque
 stringData:
   name: eks-aws
   server: https://<eks-cluster-endpoint>
-  # config: |
-  #   {
-  #     "awsAuthConfig": {
-  #       "clusterName": "hybrid-eks",
-  #       "roleARN": "arn:aws:iam::<account-id>:role/<argocd-role>"
-  #     },
-  #     "tlsClientConfig": {
-  #       "insecure": false,
-  #       "caData": "<base64-encoded-ca-cert>"
-  #     }
-  #   }
+  config: "{}"
+  # For advanced configuration (AWS auth, TLS), see docs/CONFIG-EXAMPLES.md

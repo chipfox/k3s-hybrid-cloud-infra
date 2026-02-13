@@ -11,12 +11,5 @@ type: Opaque
 stringData:
   name: k3s-proxmox
   server: https://10.0.0.230:6443
-  # config: |
-  #   {
-  #     "tlsClientConfig": {
-  #       "insecure": false,
-  #       "caData": "<base64-encoded-ca-cert>",
-  #       "certData": "<base64-encoded-client-cert>",
-  #       "keyData": "<base64-encoded-client-key>"
-  #     }
-  #   }
+  config: "{}"
+  # For advanced configuration (TLS, auth), see docs/CONFIG-EXAMPLES.md
